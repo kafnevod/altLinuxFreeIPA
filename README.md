@@ -109,8 +109,10 @@ altlinux8sp-mmc-cli.mmc.loc has address 10.120.250.27
 ![Текущий список сервисов](images/serviceList.png)
 
 ### Создание keytab-файла
+
+Зайдите на сервере с установленным apache2-сервисом под глобальным пользователем (admin) входящего в группу `wheel` (см выше) и вызовате команду генерации keytab-файла для HTTP-сервиса:
 ```bash
-# ipa-getkeytab -s freeipa.mmc.loc -p HTTP/altlinux8sp-mmc-cli.mmc.loc@MMC.LOC  -k /etc/httpd2/http.keytab
+# sudo ipa-getkeytab -s freeipa.mmc.loc -p HTTP/altlinux8sp-mmc-cli.mmc.loc@MMC.LOC  -k /etc/httpd2/http.keytab
 ```
 
 ### Установка модулей авторизации
