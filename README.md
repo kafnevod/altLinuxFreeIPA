@@ -99,14 +99,12 @@ $ host altlinux8sp-mmc-cli.mmc.loc
 altlinux8sp-mmc-cli.mmc.loc has address 10.120.250.27
 ```
 
+Зайдите в администартивном интерфейсе freeIPA во вкладку `Службы` и кликните по клавише `Добавить.`
+Во всплывающем интерфейск выберите сервис HTTP и узел, но котором установлен apache2 сервер.
 
+![Добавление сервиса HTTP - выбор имени сервиса](images/addServiceHTTP.png)
 
-
-
-
-![Добавление сервиса HTTP - указание имени сервиса](images/addServiceHTTP.png)
-
-![Добавление сервиса HTTP- указание имени хоста](images/addServiceHOST.png)
+![Добавление сервиса HTTP- выбор имени хоста](images/addServiceHOST.png)
 
 ![Текущий список сервисов](images/serviceList.png)
 
