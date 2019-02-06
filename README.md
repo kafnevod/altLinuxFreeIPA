@@ -117,4 +117,18 @@ altlinux8sp-mmc-cli.mmc.loc has address 10.120.250.27
 
 ### Установка модулей авторизации
 
+```
+# apt-get install apache2-mod_auth_gssapi
+# a2enmod auth_gssapi authz_user authn_core
+# 
+
+
+```
+
 ### Добавление доменной авторизации в файл конфигурации WEB-сервиса 
+
+
+
+## Материалы
+
+- [Настройка Kerberos аутентификации с SSO на веб-сервере Apache с помощью SSSD](https://blog.it-kb.ru/2016/10/26/configuring-basic-and-kerberos-authentication-with-sso-single-sign-on-for-the-apache-web-server-using-sssd-and-pam-service-for-authorization/)
