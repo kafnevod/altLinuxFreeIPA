@@ -112,23 +112,37 @@ altlinux8sp-mmc-cli.mmc.loc has address 10.120.250.27
 
 Зайдите на сервере с установленным apache2-сервисом под глобальным пользователем (admin) входящего в группу `wheel` (см выше) и вызовате команду генерации keytab-файла для HTTP-сервиса:
 ```bash
-# sudo ipa-getkeytab -s freeipa.mmc.loc -p HTTP/altlinux8sp-mmc-cli.mmc.loc@MMC.LOC  -k /etc/httpd2/http.keytab
+# ipa-getkeytab -s freeipa.mmc.loc -p HTTP/altlinux8sp-mmc-cli.mmc.loc@MMC.LOC  -k /etc/httpd2/http.keytab
+# chown apache2:apache2 /etc/httpd2/http.keytab
+# chmod 0440 /etc/httpd2/http.keytab
 ```
 
 ### Установка модулей авторизации
 
+В качестве модуля авторизации используется модуль [GSSAPI](https://ru.wikipedia.org/wiki/GSS-API).
+Его установка и инициализация производится командами: 
 ```
 # apt-get install apache2-mod_auth_gssapi
 # a2enmod auth_gssapi authz_user authn_core
-# 
-
-
+# systemctl restart httpd2
 ```
 
 ### Добавление доменной авторизации в файл конфигурации WEB-сервиса 
 
-
+Для поддержки доменной аутентификации и авторизации с поддержкой `kerberos` добавьте в конфигурационный файл или файл `.htaccess` защищаемого подкаталога Apache2-сервера параметры авторизации: 
+```bash
+        <Location />
+                AuthType GSSAPI
+                AuthName "Kerberos Login"
+                GssapiBasicAuth On
+                GssapiCredStore keytab:/etc/httpd2/http.keytab
+                require valid-user
+                RequestHeader set REMOTE-USER %{REMOTE_USER}s
+        </Location>
+```
+Где `/etc/httpd2/http.keytab` - файл созданный командой `ipa-getkeytab`.
 
 ## Материалы
 
-- [Настройка Kerberos аутентификации с SSO на веб-сервере Apache с помощью SSSD](https://blog.it-kb.ru/2016/10/26/configuring-basic-and-kerberos-authentication-with-sso-single-sign-on-for-the-apache-web-server-using-sssd-and-pam-service-for-authorization/)
+- [Домен/Использование Kerberos:Apache](https://www.altlinux.org/%D0%94%D0%BE%D0%BC%D0%B5%D0%BD/%D0%98%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5_Kerberos#Apache)
+
